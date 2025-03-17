@@ -49,7 +49,7 @@ class GeneralOperation:
         return (x1,y1)
 
     @staticmethod
-    def new_logging():
+    def set_logging_config():
         logging.basicConfig(level=logging.INFO,format="%(asctime)s - %(message)s")
 
     @staticmethod

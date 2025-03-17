@@ -6,19 +6,18 @@ __desc__ = "从第二个引导任务完成至第十个引导任务"
 import sys
 
 sys.path.append(r"H:\Uiauto_demo")
+import logging
 from airtest.core.api import *
+from config import casual
+from lib import public_using
+from lib.general_operation import GeneralOperation
+GeneralOperation.set_logging_config()
 # script content
 print("start...")
-casual = (0.5, 0.08)
-
-
-def touch_back():
-    touch(wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741691361234.png", record_pos=(-0.429, -0.857),
-                        resolution=(1260, 2720))))
 
 
 def taskui_is_open():
-    # 先判断任务面板是否打开，如果打开，则处理任务点击跳转/领奖，如果未打开，点击任务入口
+    """先判断任务面板是否打开，如果打开，则处理任务点击跳转/领奖，如果未打开，点击则任务入口试图打开任务面板"""
     if exists(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741691933991.png", threshold=0.8,
                        record_pos=(0.002, -0.234), resolution=(1260, 2720))):
         handle_task_result()
@@ -26,13 +25,13 @@ def taskui_is_open():
         if exists(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741691987650.png", record_pos=(-0.337, 0.64),
                            resolution=(1260, 2720))):
             touch((0.25, 0.8))
-            handle_task_result()
+            handle_task_result()  # 根据任务状态做下一步操作
         else:
             touch((0.25, 0.8))
             congratulae_is_open()
 
-
 def handle_task_result():
+    """打开引导任务面板后，根据领奖状态判断点击前往/领奖"""
     wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741693224105.png", record_pos=(0.003, -0.229),
                   resolution=(1260, 2720)))
     jmup_icon = Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741692128849.png", record_pos=(-0.001, 0.223),
@@ -48,9 +47,11 @@ def handle_task_result():
         touch(wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741701709861.png", record_pos=(0.003, 0.21),
                             resolution=(1080, 2400))), duration=0.5)
         congratulae_is_open()
+        touch(casual)  # 关闭任务面板
 
 
 def congratulae_is_open():
+    """判断恭喜获得界面是否正常展示"""
     sleep(1)
     assert_exists(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741691540115.png", record_pos=(0.012, -0.225),
                            resolution=(1260, 2720)),
@@ -58,7 +59,8 @@ def congratulae_is_open():
     touch(casual)
 
 
-def task_process_2to4():  # 2-》10
+def task_process_2to4():
+    logging.info("开始执行task_process_2to4")# 2-》10
     taskui_is_open()
     collect_pos = wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741688223745.png", record_pos=(0.013, 0.684),
                                 resolution=(1260, 2720)))
@@ -89,11 +91,10 @@ def task_process_2to4():  # 2-》10
         sleep(0.5)
         touch(soldier_pos)
         sleep(0.5)
-    sleep(1)
     touch((0.53, 0.17))
-    touch(wait(
-        Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741691056914.png", threshold=0.85, record_pos=(-0.294, -0.04),
-                 resolution=(1260, 2720))), times=1, duration=0.5)
+    sleep(1)
+    #这一步要改，老点不到政务
+    touch((0.20,0.47))
     touch(wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741690238110.png", record_pos=(0.359, -0.912),
                         resolution=(1260, 2720))), duration=1)
     wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741691084886.png", record_pos=(-0.323, -0.082),
@@ -104,18 +105,22 @@ def task_process_2to4():  # 2-》10
         sleep(0.7)
     touch((0.53, 0.17))
     sleep(0.7)
-    touch_back()
+    public_using.touch_back()
     sleep(0.7)
     handle_task_result()
-
+    taskui_is_open()
+    taskui_is_open()
+    logging.info("结束执行task_process_2to4")
 
 def task_process_5():
+    logging.info("开始执行task_process_5")
     taskui_is_open()
     touch(wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741692378201.png", record_pos=(-0.336, -0.466),
                         resolution=(1260, 2720))))
     for _ in range(6):
         touch(casual)
         sleep(0.8)
+    sleep(1)
     up_btn_pos = wait(Template(r"H:\Uiauto_demo\scripts\guide_task\tpl1741692518445.png", record_pos=(0.399, 0.455),
                                resolution=(1260, 2720)))
     sleep(1)
@@ -135,9 +140,14 @@ def task_process_5():
                          record_pos=(-0.006, 0.575), resolution=(1260, 2720))):
             break
         touch(up_btn_pos)
-    touch_back()
-    touch_back()
+    public_using.touch_back()
+    public_using.touch_back()
     handle_task_result()
+    logging.info("结束执行task_process_5")
+
+def start_guide_task_smoke_test():
+    task_process_2to4()
+    task_process_5()
 
 
 if __name__ == "__main__":
@@ -146,5 +156,3 @@ if __name__ == "__main__":
 # generate html report
 # from airtest.report.report import simple_report
 # simple_report(__file__, logpath=True)
-
-

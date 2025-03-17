@@ -8,7 +8,7 @@ import random
 sys.path.append(r"H:\Uiauto_demo")
 from airtest.core.api import *
 from airtest.report.report import simple_report, LogToHtml
-from scripts.main_step.main_step import close_face_window
+from lib import public_using
 from lib.general_operation import *
 
 print("start...")
@@ -70,7 +70,7 @@ class HandleOffice():
     def close_office_to_home(self):
         touch(wait(Template(r"tpl1742189582944.png", record_pos=(-0.431, -0.86), resolution=(1260, 2720))))
         # 判断一下，是否存在拍脸弹框？
-        close_face_window()
+        public_using.close_face_window()
 
 
 if __name__ == "__main__":
