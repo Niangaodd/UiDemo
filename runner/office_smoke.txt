@@ -1,0 +1,6 @@
+echo "开始执行政务大厅的冒烟测试脚本"
+
+$env:DEVICE_ID='192.168.110.175:55555';$env:LOG_DIR='H:\Uiauto_demo\scripts\office\log\HW_mate60_pro';&"D:\ww 2\venv\Scripts\airtest.exe" run H:\Uiauto_demo\scripts\office\office_smoke.py 
+
+echo "开始导出政务大厅的冒烟测试脚本的测试报告"
+echo "D:\ForTest\pocoTest\.venv\Scripts\python.exe D:\AirtestIDE-win-1.2.14\AirtestIDE\sample\report_launcher.py H:\Uiauto_demo\scripts\office\office_smoke.py --log_root H:/Uiauto_demo/scripts/office/log/HW_mate60_pro --outfile H:\Uiauto_demo\scripts\office\log\HW_mate60_pro\log.html --static_root D:\AirtestIDE-win-1.2.14\AirtestIDE\airtest\report --lang zh --plugin airtest_selenium.report poco.utils.airtest.report"

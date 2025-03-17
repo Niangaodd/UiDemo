@@ -1,0 +1,71 @@
+mac系统
+export DEVICE_ID="23E0224711011260"; export LOG_DIR="log/HW_mate60_pro"; airtest run /path/to/basic_smoke.py
+或者
+export DEVICE_ID="23E0224711011260"
+export LOG_DIR="/path/to/Uiauto_demo/scripts/basic/log/HW_mate60_pro"
+airtest run /path/to/Uiauto_demo/scripts/basic/basic_smoke.py
+
+win-powershell系统
+$env:DEVICE_ID="23E0224711011260";$env:LOG_DIR="H:\Uiauto_demo\scripts\basic\log\HW_mate60_pro";airtest run "H:\Uiauto_demo\scripts\basic\basic_smoke.py"
+
+cmd系统
+@echo off
+set DEVICE_ID=23E0224711011260&&set LOG_DIR=H:\Uiauto_demo\scripts\basic\log\HW_mate60_pro&&airtest run "H:\Uiauto_demo\scripts\basic\basic_smoke.py"
+
+set DEVICE_ID=23E0224711011260&&set LOG_DIR=H:\Uiauto_demo\scripts\basic\log\HW_mate60_pro&&"D:\ww 2\venv\Scripts\airtest.exe" run "H:\Uiauto_demo\scripts\basic\basic_smoke.py"
+
+
+python接收方式
+import os
+
+device_id = os.getenv("DEVICE_ID")
+log_dir = os.getenv("LOG_DIR")
+
+为什么设计为临时变量？
+​灵活性：允许不同终端会话或脚本使用不同的变量值（例如同时测试多台设备）。
+​安全性：避免全局变量污染其他任务或程序。
+​调试友好：临时变量便于快速测试不同配置，无需修改系统设置。
+
+
+如果在bat脚本里用set VAR=value代替$env:VAR=value
+start "TEST leidian" cmd /k "set DEVICE_ID=emulator-5554 && set LOG_DIR=log\emulator-5554 && airtest run H:\Uiauto_demo\scprits\basic\basic_smoke.py"
+start表示打开新窗口运行
+"TEST leidian"是窗口标题
+cmd /k保持窗户运行不关闭
+set Var = value设置临时变量
+%%在同一行连接多个命令
+
+1、调用其他目录下的py文件时，方法内部如果有图像识别，则修改图片路径为绝对路径，否则调用时会找不到文件。
+
+2、log存放指定目录的方法：创建临时变量log_dir，在脚本里获取临时变量
+创建临时变量的方法：
+
+在windows系统下分为cmd和powershell环境
+powershell
+$env:LOG_DIR = "日志存放目录的绝对路径"
+cmd
+set LOG_DIR="日志存放目录i的绝对路径"
+
+在mac系统下
+export LOG_DIR="日志存放目录i的绝对路径"
+
+获取临时变量（py文件）
+log_dir = os.getenv("LOG_DIR")
+
+
+3、从命令行传入设备名的方法？同上
+
+4、导出报告（本地）
+在脚本里
+simple_report(__file__,logpath=log_dir,logfile="log.txt",output=os.path.join(log_dir,"log.html"))#仅能查看英文报告
+在命令行里生成
+"D:\ForTest\pocoTest\.venv\Scripts\python.exe D:\AirtestIDE-win-1.2.14\AirtestIDE\sample\report_launcher.py H:\Uiauto_demo\scripts\office\office_smoke.py --log_root H:/Uiauto_demo/scripts/office/log/HW_mate60_pro --outfile H:\Uiauto_demo\scripts\office\log\HW_mate60_pro\log.html --static_root D:\AirtestIDE-win-1.2.14\AirtestIDE\airtest\report --lang zh
+
+5、导出报告（他人）
+在脚本里
+h1 = LogToHtml(script_root=__file__, log_root=log_dir,static_root=r"D:\static",
+	export_dir=log_dir, logfile=os.path.join(log_dir,f"log.txt"), lang='zh',
+	plugins=None)
+h1.report()
+把生成的整个文件夹发给别人看
+

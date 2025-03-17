@@ -2,12 +2,7 @@
 __author__ = "ASUS"
 
 from airtest.core.api import *
-from airtest.cli.parser import cli_setup
 
-if not cli_setup():
-    auto_setup(__file__, logdir=True, devices=["android://127.0.0.1:5037/emulator-5554?", ])
-
-# script content
 print("start...")
 
 

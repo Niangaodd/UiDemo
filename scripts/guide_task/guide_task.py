@@ -4,26 +4,9 @@ __title__ = "完成引导任务step2-step10"
 __desc__ = "从第二个引导任务完成至第十个引导任务"
 
 import sys
-import logging
 
 sys.path.append(r"H:\Uiauto_demo")
 from airtest.core.api import *
-from airtest.cli.parser import cli_setup
-from scripts.main_step import main_step
-import os
-from lib.general_operation import GeneralOperation
-
-# 从环境变量获取设备ID和日志目录
-device_id, log_dir = GeneralOperation.get_device_and_logdir()
-GeneralOperation.new_logging()
-logging.info(f"设备id:{device_id}")
-logging.info(f"日志:{log_dir}")
-# 初始化时指定独立目录
-auto_setup(__file__, logdir=log_dir, devices=[f"Android://127.0.0.1:5037/{device_id}"])
-# if not cli_setup():
-#     auto_setup(__file__, logdir=True, devices=["android://127.0.0.1:5037/23E0224711011260?touch_method=MAXTOUCH&",])
-
-
 # script content
 print("start...")
 casual = (0.5, 0.08)

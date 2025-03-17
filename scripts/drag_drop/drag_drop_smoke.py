@@ -5,37 +5,20 @@ __desc__ = '''进入星星界面-》判断星星是否存在-》移动星星-》
 
 
 import sys
-import logging
-import os
-import time
-
 sys.path.append(r"H:\Uiauto_demo")
 from lib.general_operation import *
 from scripts.home_page import home_page
 from airtest.core.api import *
-from lib.general_operation import GeneralOperation
-from airtest.report.report import simple_report
-from airtest.cli.parser import cli_setup
-from airtest.core.android import Android
 import config
-
 GeneralOperation.new_logging()
 
-# if not cli_setup():
-#     auto_setup(__file__, 
-#                logdir=True,
-#                devices=["Android://127.0.0.1:5037/emulator-5554","Android://127.0.0.1:5037/23E0224711011260"])
-# 从环境变量获取设备ID和日志目录
-device_id,log_dir = GeneralOperation.get_device_and_logdir()
-# 初始化时指定独立目录
-auto_setup(__file__, logdir=log_dir, devices=[f"Android://127.0.0.1:5037/{device_id}"])
 
 
 def enter_drap_drop():
     """判断是否进入玩法界面，返回星星列表stars_pos包含所有星星的坐标"""
     touch(Template(r"tpl1741660551575.png", record_pos=(-0.263, -0.076), resolution=(2720, 1260)))
     sleep(1)
-    star = Template(r"tpl1741614611952.png", record_pos=(-0.357, -0.1), resolution=(2720, 1260))
+    star = config.star
     star_is_exists = exists(star)
     if star_is_exists:
         star_list = find_all(star)
@@ -66,7 +49,8 @@ def move_star(stars_pos):
 
     
 if __name__ == "__main__":
-    # home_page.enter_homepage()
+    logging.info(f"开始执行{__file__}")
+    home_page.enter_homepage()
     stars_pos = enter_drap_drop()
     logging.info(f"stars_pos:{stars_pos}")
     move_star(stars_pos)

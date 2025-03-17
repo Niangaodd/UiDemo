@@ -7,13 +7,11 @@ import sys
 
 sys.path.append(r"H:\Uiauto_demo")
 from airtest.core.api import *
-from airtest.cli.parser import cli_setup
 
-# if not cli_setup():
-#     auto_setup(__file__, logdir=True, devices=["Android:///",])
-
-
-# script content
+# from lib.general_operation import *
+#
+# # 连接设备
+# GeneralOperation.connect_devices()
 print("start...")
 
 
@@ -33,7 +31,8 @@ def finish_main_guild():
         touch(casual)
         sleep(1)
     sleep(1)
-    touch(wait(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685000757.png", record_pos=(-0.436, -0.865),resolution=(1260, 2720))))
+    touch(wait(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685000757.png", record_pos=(-0.436, -0.865),
+                        resolution=(1260, 2720))))
     touch(wait(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685057297.png", record_pos=(0.322, 0.88),
                         resolution=(1260, 2720))))
     NANA_Spine = Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685077055.png", record_pos=(0.015, 0.047),
@@ -41,7 +40,8 @@ def finish_main_guild():
     wait(NANA_Spine)
     assert_exists(NANA_Spine, "检查约会界面展示是否正常")
     touch(casual)
-    touch(wait(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685000757.png", record_pos=(-0.436, -0.865),resolution=(1260, 2720))))
+    touch(wait(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685000757.png", record_pos=(-0.436, -0.865),
+                        resolution=(1260, 2720))))
     sleep(3)
     try:
         touch((0.25, 0.8))
@@ -56,16 +56,22 @@ def finish_main_guild():
     for _ in range(6):
         touch(page2_ensure_post)
     sleep(1)
+    close_face_window()
+
+
+def close_face_window():
     if exists(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741695450607.png", record_pos=(-0.011, -0.27),
                        resolution=(1260, 2720))):
-        touch(casual)
+        touch((0.5, 0.08))
     else:
-        for _ in range(5):  # 如果存在拍脸弹窗,点击关闭，检查5次，可能有多个弹窗
+        while True:  # 如果存在拍脸弹窗,点击关闭(可能有多个弹窗)
             if exists(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685805003.png", record_pos=(0.447, -0.797),
                                resolution=(1260, 2720))):
                 touch(Template(r"H:\Uiauto_demo\scripts\main_step\tpl1741685813499.png", record_pos=(0.441, -0.792),
                                resolution=(1260, 2720)))
                 sleep(0.5)
+            else:
+                break
 
 
 if __name__ == "__main__":

@@ -4,17 +4,10 @@ __author__ = "ASUS"
 import sys
 
 sys.path.append(r"H:\Uiauto_demo")
-import logging
-from lib.general_operation import GeneralOperation
 from config import blank_icon
 from airtest.core.api import *
-from airtest.cli.parser import cli_setup
-
+from lib.general_operation import *
 GeneralOperation.new_logging()
-if not cli_setup():
-    auto_setup(__file__, logdir=True, devices=["android://127.0.0.1:5037/23E0224711011260", ],
-               project_root="H:/Uiauto_demo")
-
 # script content
 print("start...")
 

@@ -1,5 +1,7 @@
 import logging
 import time
+
+from airtest.core.api import auto_setup
 from airtest.core.helper import set_logdir
 from airtest.core.settings import Settings as ST
 import os
@@ -52,11 +54,21 @@ class GeneralOperation:
 
     @staticmethod
     def get_device_and_logdir():
-        device_id = os.getenv("DEVICE_ID")
+        # device_id = os.getenv("DEVICE_ID")
         log_dir = os.getenv("LOG_DIR")
-        logging.info(f"设备id是{device_id}")
+        # logging.info(f"设备id是{device_id}")
         logging.info(f"日志dir是{log_dir}")
-        return device_id,log_dir
+        return log_dir
+
+    @staticmethod
+    def connect_devices():
+        device_id, log_dir = GeneralOperation.get_device_and_logdir()
+        auto_setup(__file__, logdir=log_dir, devices=[f"Android://127.0.0.1:5037/{device_id}"])
+        return device_id, log_dir
+
+    @staticmethod
+    def outfile_report():
+        pass
 
 if __name__ ==  "__main__":
     x = GeneralOperation.pos_absolute_to_relative((389,359),2720,1260)

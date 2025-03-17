@@ -12,13 +12,7 @@ sys.path.append(r"H:\Uiauto_demo")
 import config
 from airtest.core.api import *
 from scripts.home_page import home_page
-from airtest.cli.parser import cli_setup
 
-
-if not cli_setup():
-    auto_setup(__file__, 
-               logdir=True,
-               devices=["Android://127.0.0.1:5037/emulator-5554","Android://127.0.0.1:5037/23E0224711011260"])
 
 class TestBaisc():
     def __init__(self):

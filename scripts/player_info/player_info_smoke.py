@@ -5,11 +5,6 @@ import sys
 sys.path.append(r"H:/Uiauto_demo")
 from config import blank_icon
 from airtest.core.api import *
-from airtest.cli.parser import cli_setup
-
-if not cli_setup():
-    auto_setup(__file__, logdir=True, devices=["Android:///",], project_root="H:/Uiauto_demo")
-
 
 # script content
 print("start...")
