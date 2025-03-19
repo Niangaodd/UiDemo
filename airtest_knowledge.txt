@@ -69,3 +69,11 @@ h1 = LogToHtml(script_root=__file__, log_root=log_dir,static_root=r"D:\static",
 h1.report()
 把生成的整个文件夹发给别人看
 
+最新的知识:(上面也有提到其他解决办法，这个最简单那）
+如何解决，在调用其他脚本时，脚本里的template是相对路径，从而引起报错
+解决办法
+1.将所有的tpl图片放在同一个路径下
+2.在需要使用template脚本的开头，使用os.chdir("存放图片的路径")设置脚本运行时的所在目录，这样的话当 图片是Template(r"icon.png")时，也会自动在当前路径下找图片
+
+powershell执行脚本命令的模板
+$env:LOG_DIR="H:\Uiauto_demo\log\emulator-5554";airtest run "H:\Uiauto_demo\scripts\main.py" --device "android:127.0.0.1:5037/emulator-5554" --log "H:\Uiauto_demo\log\emulator-5554"
